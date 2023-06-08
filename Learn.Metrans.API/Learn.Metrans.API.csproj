@@ -16,7 +16,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Learn.Metrans.PERSISTANCE\Learn.Metrans.PERSISTANCE.csproj" />
+    <ProjectReference Include="..\Learn.Metrans.CORE\Learn.Metrans.CORE.csproj" />
   </ItemGroup>
 
 </Project>

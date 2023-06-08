@@ -1,4 +1,5 @@
 ﻿using Learn.Metrans.API.Services;
+using Learn.Metrans.CORE.Utilities;
 using Learn.Metrans.PERSISTANCE.Context;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
@@ -8,15 +9,17 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace Learn.Metrans.API.Configuration;
-
+/// <summary>
+/// Application configuration
+/// </summary>
 public static class ApiConfiguration
 {
     private static readonly string _apiName = "MetransEmployyes";
     /// <summary>
-    /// Configure dependency injections
+    /// Configure dependency injections on service collection
     /// </summary>
-    /// <param name="services">static IServicecollection</param>
-    /// <returns>Configurated IServiceCollection for whole application</returns>
+    /// <param name="services"><see cref="IServiceCollection"/></param>
+    /// <returns><see cref="IServiceCollection"/></returns>
     public static IServiceCollection InjectServices(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
@@ -38,15 +41,15 @@ public static class ApiConfiguration
         services.AddDbContext<MetransDbContext>(o =>
         {
             o.UseInMemoryDatabase("MetransHR_CZ");
-        });
+        }, ServiceLifetime.Singleton);
         return services;
     }
     /// <summary>
     /// Configure web application
     /// </summary>
-    /// <param name="app">static WebApplication</param>
+    /// <param name="app"><see cref="WebApplication"/></param>
     /// <param name="config">Instance of Iconfiguration</param>
-    /// <returns>Configured Web application for whole application</returns>
+    /// <returns><see cref="WebApplication"/></returns>
 
     public static WebApplication ConfigureWebApplication(this WebApplication app, IConfiguration config)
     {
@@ -72,6 +75,29 @@ public static class ApiConfiguration
         }
 
         app.UseHttpsRedirection();
+
+        return app;
+    }
+    /// <summary>
+    /// Insert employyes on initialization
+    /// </summary>
+    /// <param name="app"><see cref="WebApplication"/></param>
+    /// <returns><see cref="WebApplication"/></returns>
+    /// <exception cref="NotImplementedException"></exception>
+    public static WebApplication InsertEmployeesOnInitialization(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<MetransDbContext>();
+            context.Employyes.AddRange(Utils.CreateInitEmployees(100));
+            context.SaveChanges();
+        }
+        catch
+        {
+            throw new NotImplementedException();
+        }
         return app;
     }
 }

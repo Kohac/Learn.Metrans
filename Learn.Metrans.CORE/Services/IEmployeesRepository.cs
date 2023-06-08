@@ -4,7 +4,8 @@ namespace Learn.Metrans.API.Services
 {
     public interface IEmployeesRepository
     {
-        void DeleteEmployees(int id);
+        bool IsEmployeeExists(Int32 id);
+        void DeleteEmployees(Employees employee);
         IList<Employees> GetEmployees();
         Employees? GetEmployees(int id);
         void InsertEmployyes(Employees employees);

@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn.Metrans.API", "Learn.Metrans.API\Learn.Metrans.API.csproj", "{CEA37934-CD20-4934-A949-88C88EDE959E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Learn.Metrans.API", "Learn.Metrans.API\Learn.Metrans.API.csproj", "{CEA37934-CD20-4934-A949-88C88EDE959E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn.Metrans.PERSISTANCE", "Learn.Metrans.PERSISTANCE\Learn.Metrans.PERSISTANCE.csproj", "{9068F109-5403-4586-BDD0-C2E9A57B5923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Learn.Metrans.PERSISTANCE", "Learn.Metrans.PERSISTANCE\Learn.Metrans.PERSISTANCE.csproj", "{9068F109-5403-4586-BDD0-C2E9A57B5923}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Learn.Metrans.CORE", "Learn.Metrans.CORE\Learn.Metrans.CORE.csproj", "{FDB66108-64DE-4C9C-AB68-E2209493D6FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{9068F109-5403-4586-BDD0-C2E9A57B5923}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9068F109-5403-4586-BDD0-C2E9A57B5923}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9068F109-5403-4586-BDD0-C2E9A57B5923}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB66108-64DE-4C9C-AB68-E2209493D6FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB66108-64DE-4C9C-AB68-E2209493D6FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB66108-64DE-4C9C-AB68-E2209493D6FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB66108-64DE-4C9C-AB68-E2209493D6FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
