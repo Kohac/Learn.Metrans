@@ -58,6 +58,17 @@ public class EmployeesRepository : IEmployeesRepository
         _context.SaveChanges();
     }
     /// <summary>
+    /// Insert employee by providing <see cref="Employees"/>
+    /// </summary>
+    /// <param name="employees"></param>
+    /// <returns>Return inserted <see cref="Employees"/></returns>
+    public Employees InsertEmployyesAndReturn(Employees employees)
+    {
+        _context.Add(employees);
+        _context.SaveChanges();
+        return employees;
+    }
+    /// <summary>
     /// Insert range of employyes providing <see cref="IList{Employees}"/>
     /// </summary>
     /// <param name="employees"><see cref="IList{Employees}"/></param>

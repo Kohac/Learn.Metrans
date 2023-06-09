@@ -1,5 +1,8 @@
-﻿using Learn.Metrans.API.Services;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using Learn.Metrans.API.Services;
 using Learn.Metrans.CORE.Utilities;
+using Learn.Metrans.CORE.Validations;
 using Learn.Metrans.PERSISTANCE.Context;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
@@ -38,6 +41,8 @@ public static class ApiConfiguration
         services.Configure<JsonOptions>(o => o.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase);
 
         services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+        services.AddFluentValidationAutoValidation();
+        services.AddValidatorsFromAssemblyContaining(typeof(EmployeesValidator));
         services.AddDbContext<MetransDbContext>(o =>
         {
             o.UseInMemoryDatabase("MetransHR_CZ");

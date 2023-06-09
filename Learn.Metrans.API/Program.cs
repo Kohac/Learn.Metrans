@@ -1,5 +1,3 @@
-using Learn.Metrans.API.Controllers;
-
 var builder = WebApplication.CreateBuilder(args);
 //inject DI
 builder.Services.InjectServices();

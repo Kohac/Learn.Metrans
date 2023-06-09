@@ -1,7 +1,10 @@
-﻿using Learn.Metrans.API.Models;
+﻿using FluentValidation;
+using Learn.Metrans.API.Models;
 using Learn.Metrans.API.Profiles;
 using Learn.Metrans.API.Services;
+using Learn.Metrans.CORE.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
 namespace Learn.Metrans.API.Controllers;
@@ -48,8 +51,8 @@ public static class MetransEmployees
     /// <param name="id">id</param>
     /// <param name="repo"><see cref="IEmployeesRepository"/></param>
     /// <returns>Return <see cref="EmployeesDto"/> from db.</returns>
-    private static IResult GetEmployees([FromQuery] Int32 id,
-                                     [FromServices] IEmployeesRepository repo)
+    private static IResult GetEmployees(Int32 id,
+                                        [FromServices] IEmployeesRepository repo)
     {
         try
         {
@@ -70,16 +73,28 @@ public static class MetransEmployees
     /// </summary>
     /// <param name="employeesDtos"></param>
     /// <param name="repo"></param>
+    /// <param name="validator"></param>
     /// <returns>Return response in <see cref="Results"/></returns>
-    private static IResult PostEmployees([FromBody]EmployeesDto employeesDtos,
-                                     [FromServices] IEmployeesRepository repo)
+    private static IResult PostEmployees([FromBody] EmployeesDto employeesDtos,
+                                         [FromServices] IEmployeesRepository repo,
+                                         [FromServices] IValidator<EmployeesDto> validator)
     {
+        var validationResult = validator.Validate(employeesDtos);
+        if (!validationResult.IsValid)
+        {
+            var validationErrors = validationResult.Errors.Select(x => new ErrorDto
+            {
+                ErrorDescription = x.ErrorMessage,
+                PropertyName = x.PropertyName
+            });
+            return Results.BadRequest(validationErrors);
+        }
         try
         {
             if (repo.IsEmployeeExists(employeesDtos.Id))
                 return Results.BadRequest("The Employee with this id already exists. Please check id and try it again.");
-            repo.InsertEmployyes(employeesDtos.MapEmployyesDtoToDb());
-            return Results.Ok();
+            var result = repo.InsertEmployyesAndReturn(employeesDtos.MapEmployyesDtoToDb());
+            return Results.Created($"/Person/{employeesDtos.Id}", result);
         }
         catch (Exception ex)
         {
@@ -91,10 +106,22 @@ public static class MetransEmployees
     /// </summary>
     /// <param name="employee"></param>
     /// <param name="repo"></param>
+    /// /// <param name="validator"></param>
     /// <returns>Return response in <see cref="Results"/></returns>
     private static IResult PutEmployees([FromBody] EmployeesDto employee,
-                                     [FromServices] IEmployeesRepository repo)
+                                        [FromServices] IEmployeesRepository repo,
+                                        [FromServices] IValidator<EmployeesDto> validator)
     {
+        var validationResult = validator.Validate(employee);
+        if (!validationResult.IsValid)
+        {
+            var validationErrors = validationResult.Errors.Select(x => new ErrorDto
+            {
+                ErrorDescription = x.ErrorMessage,
+                PropertyName = x.PropertyName
+            });
+            return Results.BadRequest(validationErrors);
+        }
         try
         {
             var result = repo.GetEmployees(employee.Id);
@@ -124,7 +151,7 @@ public static class MetransEmployees
     /// <param name="repo"></param>
     /// <returns>Return response in <see cref="Results"/></returns>
     private static IResult DeleteEmployees([FromQuery] Int32 id,
-                                     [FromServices] IEmployeesRepository repo)
+                                           [FromServices] IEmployeesRepository repo)
     {
         try
         {
@@ -149,8 +176,8 @@ public static class MetransEmployees
     /// <param name="repo"></param>
     /// <returns>Return response in <see cref="Results"/></returns>
     private static IResult GetEmployeesList([FromQuery] string? sortBy,
-                                     [FromQuery] string? sortType,
-                                     [FromServices] IEmployeesRepository repo)
+                                            [FromQuery] string? sortType,
+                                            [FromServices] IEmployeesRepository repo)
     {
         try
         {

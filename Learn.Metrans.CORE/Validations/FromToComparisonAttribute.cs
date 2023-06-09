@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Learn.Metrans.API.Validations;
-
+[Obsolete("This class can be used only for controllers approach")]
 public class FromToComparisonAttribute : ValidationAttribute
 {
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)

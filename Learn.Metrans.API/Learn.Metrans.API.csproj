@@ -10,8 +10,10 @@
 
 	<ItemGroup>
 		<Using Include="Learn.Metrans.API.Configuration;" />
+		<Using Include="Learn.Metrans.API.Controllers;"/>
 	</ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="Mapster" Version="7.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>

@@ -10,6 +10,7 @@ namespace Learn.Metrans.API.Services
         Employees? GetEmployees(int id);
         void InsertEmployyes(Employees employees);
         void InsertEmployyes(IList<Employees> employees);
+        Employees InsertEmployyesAndReturn(Employees employees);
         void UpdateEmployyes(Employees employees);
     }
 }
